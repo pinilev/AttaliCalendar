@@ -633,11 +633,11 @@
                 gregStart: new Date(2026, 10, 11),
                 holidays: { 
                   25: 'חנוכה (א\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️</span>', 
-                  26: 'חנוכה (ב\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️️</span>', 
+                  26: 'חנוכה (ב\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯</span>', 
                   27: 'חנוכה (ג\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️</span>', 
                   28: 'חנוכה (ד\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️</span>', 
                   29: 'חנוכה (ה\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️</span>', 
-                  30: 'חנוכה (ו\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️️🕯️🕯️🕯️🕯️</span>' 
+                  30: 'חנוכה (ו\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯🕯️🕯️🕯️🕯️</span>' 
                 },
                 parashot: { 4: "תולדות", 11: "ויצא", 18: "וישלח", 25: "וישב" },
                 memorials: {
@@ -667,7 +667,7 @@
                 gregStart: new Date(2026, 11, 11),
                 holidays: { 
                   1: 'חנוכה (ז\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️🕯️🕯️</span>', 
-                  2: 'זאת חנוכה (ח\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️🕯️️🕯️🕯️</span>', 
+                  2: 'זאת חנוכה (ח\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️🕯🕯️🕯️</span>', 
                   10: 'צום עשרה בטבת' 
                 },
                 parashot: { 2: "מקץ", 9: "ויגש", 16: "ויחי", 23: "שמות" },
@@ -721,26 +721,6 @@
                   27: [{name: 'דוד משה', years: 85}],
                   28: [{name: 'ישי הר זהב', years: 14}],
                   30: [{name: 'תהילה טמיר', years: 20}]
-                }
-              },
-              {
-                name: 'אדר א׳', year: 'תשפ"ז', gregorian: 'פברואר - מרץ 2027', startDay: 1, days: 30,
-                gregStart: new Date(2027, 1, 8),
-                holidays: { 14: 'פורים קטן' },
-                parashot: { 6: "תרומה", 13: "תצוה", 20: "כי תשא", 27: "ויקהל" },
-                memorials: {
-                  19: [{name: 'דיין POPAUL מאיר-חי בן דיאמנטה', years: 27}]
-                },
-                anniversaries: {
-                  26: [{name: 'אפרת ואדיר בוצחק', years: 16}]
-                },
-                birthdays: {
-                  1: [{name: 'בצלאל פרידמן', years: 9}],
-                  2: [{name: 'גפן פרידמן', years: 7}],
-                  7: [{name: 'שהם מרזל', years: 11}],
-                  12: [{name: 'אסתר גורי', years: 37}],
-                  16: [{name: 'יחיאל-חנן בלוך הלוי', years: 30}],
-                  27: [{name: 'דודה מריאן', years: 84}]
                 }
               },
               {
@@ -816,6 +796,7 @@
                   13: [{name: 'מאיר שריר הלוי', years: 31}],
                   16: [{name: 'עטרה בוצחק', years: 15}, {name: 'רואה-טוביה פרידמן', years: 1}],
                   20: [{name: 'הדס פרץ', years: 40}],
+                  21: [{name: 'שרה שיבי Sara Shibi', years: 39}],
                   22: [{name: 'טל-שרה אקדם', years: 14}],
                   27: [{name: 'עמוס גורי', years: 6}],
                   28: [{name: 'שחר-דוד ויסברג הלוי', years: 4}]
@@ -1051,7 +1032,7 @@
                         if (hasMemorials) {
                             month.memorials[d].forEach(mem => {
                                 const yearsStr = (mem.years !== undefined && mem.years !== null) ? ` <span class="years-count">(${mem.years})</span>` : '';
-                                eventsHTML += `<span class="event-badge memorial-badge" title="יום זיכרון: ${mem.name}">✡️️ ${mem.name}${yearsStr}</span>`;
+                                eventsHTML += `<span class="event-badge memorial-badge" title="יום זיכרון: ${mem.name}">✡ ${mem.name}${yearsStr}</span>`;
                             });
                         }
                         

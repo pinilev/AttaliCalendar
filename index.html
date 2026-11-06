@@ -41,6 +41,66 @@
             height: 100%;
         }
 
+        /* Quick Navigation Bar */
+        .jump-nav {
+            background-color: #1e293b;
+            color: white;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+
+        .jump-nav span {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .jump-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .jump-btn {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .jump-btn:hover {
+            background-color: #004494;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        .jump-btn.active {
+            background-color: #2563eb;
+            color: #fff;
+            border-color: #60a5fa;
+        }
+
+        #calendar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
         .calendar-page {
             background: #fff;
             width: 29.7cm;
@@ -49,11 +109,12 @@
             margin: 0 auto;
             padding: 0.25cm 0.4cm;
             box-sizing: border-box;
-            page-break-after: always;
-            break-after: page;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            scroll-margin-top: 60px;
         }
 
         .page-header {
@@ -306,6 +367,13 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            .jump-nav {
+                display: none !important;
+            }
+            #calendar-container {
+                gap: 0 !important;
+                padding: 0 !important;
+            }
             .calendar-page {
                 margin: 0 !important;
                 padding: 0.25cm 0.4cm !important;
@@ -314,6 +382,7 @@
                 max-height: 21cm !important;
                 box-shadow: none !important;
                 border: none !important;
+                border-radius: 0 !important;
                 page-break-after: always !important;
                 break-after: page !important;
                 page-break-inside: avoid !important;
@@ -323,6 +392,10 @@
     </style>
 </head>
 <body>
+
+    <nav class="jump-nav" id="jump-nav">
+        <div class="jump-buttons" id="jump-buttons-container"></div>
+    </nav>
 
     <div id="calendar-container"></div>
 
@@ -576,7 +649,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const monthsData = [
               {
-                name: 'תשרי', year: 'תשפ"ז', gregorian: 'ספטמבר - אוקטובר 2026', startDay: 6, days: 30,
+                id: 'tshri', name: 'תשרי', year: 'תשפ"ז', gregorian: 'ספטמבר - אוקטובר 2026', startDay: 6, days: 30,
                 gregStart: new Date(2026, 8, 12),
                 holidays: { 1: 'ראש השנה', 2: 'ראש השנה', 3: 'צום גדליה', 10: 'יום כיפור', 15: 'סוכות', 16: 'חול המועד', 17: 'חול המועד', 18: 'חול המועד', 19: 'חול המועד', 20: 'חול המועד', 21: 'הושענא רבה', 22: 'שמחת תורה' },
                 parashot: { 8: "האזינו", 29: "בראשית" },
@@ -603,7 +676,7 @@
                 }
               },
               {
-                name: 'חשוון', year: 'תשפ"ז', gregorian: 'אוקטובר - נובמבר 2026', startDay: 1, days: 30,
+                id: 'cheshvan', name: 'חשוון', year: 'תשפ"ז', gregorian: 'אוקטובר - נובמבר 2026', startDay: 1, days: 30,
                 gregStart: new Date(2026, 9, 12),
                 holidays: { 24: 'נס אל עלמיין (84 שנים)', 29: 'חג הסיגד' },
                 parashot: { 6: "נח", 13: "לך לך", 20: "וירא", 27: "חיי שרה" },
@@ -632,15 +705,15 @@
                 }
               },
               {
-                name: 'כסלו', year: 'תשפ"ז', gregorian: 'נובמבר - דצמבר 2026', startDay: 3, days: 30,
+                id: 'kislev', name: 'כסלו', year: 'תשפ"ז', gregorian: 'נובמבר - דצמבר 2026', startDay: 3, days: 30,
                 gregStart: new Date(2026, 10, 11),
                 holidays: { 
-                  25: 'חנוכה (א\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️</span>', 
-                  26: 'חנוכה (ב\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯</span>', 
-                  27: 'חנוכה (ג\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️</span>', 
-                  28: 'חנוכה (ד\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️</span>', 
-                  29: 'חנוכה (ה\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️</span>', 
-                  30: 'חנוכה (ו\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯🕯️🕯️🕯️🕯️</span>' 
+                  25: 'חנוכה (א\') <span style="font-size:0.75rem; vertical-align:middle;" title="נר אחד">🕯️</span>', 
+                  26: 'חנוכה (ב\') <span style="font-size:0.75rem; vertical-align:middle;" title="שני נרות">🕯️🕯️</span>', 
+                  27: 'חנוכה (ג\') <span style="font-size:0.75rem; vertical-align:middle;" title="שלושה נרות">🕯️🕯️🕯️</span>', 
+                  28: 'חנוכה (ד\') <span style="font-size:0.75rem; vertical-align:middle;" title="ארבעה נרות">🕯️🕯️🕯️🕯️</span>', 
+                  29: 'חנוכה (ה\') <span style="font-size:0.75rem; vertical-align:middle;" title="חמישה נרות">🕯️🕯️🕯️🕯️🕯️</span>', 
+                  30: 'חנוכה (ו\') <span style="font-size:0.75rem; vertical-align:middle;" title="שישה נרות">🕯️🕯️🕯️🕯️🕯️🕯️</span>' 
                 },
                 parashot: { 4: "תולדות", 11: "ויצא", 18: "וישלח", 25: "וישב" },
                 memorials: {
@@ -666,11 +739,11 @@
                 }
               },
               {
-                name: 'טבת', year: 'תשפ"ז', gregorian: 'דצמבר 2026 - ינואר 2027', startDay: 5, days: 29,
+                id: 'tevet', name: 'טבת', year: 'תשפ"ז', gregorian: 'דצמבר 2026 - ינואר 2027', startDay: 5, days: 29,
                 gregStart: new Date(2026, 11, 11),
                 holidays: { 
-                  1: 'חנוכה (ז\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️🕯️🕯️</span>', 
-                  2: 'זאת חנוכה (ח\') <span style="font-size:0.75rem; vertical-align:middle;">🕯️🕯️🕯️🕯️🕯️🕯🕯️🕯️</span>', 
+                  1: 'חנוכה (ז\') <span style="font-size:0.75rem; vertical-align:middle;" title="שבעה נרות">🕯️🕯️🕯️🕯️🕯️🕯️🕯️</span>', 
+                  2: 'זאת חנוכה (ח\') <span style="font-size:0.75rem; vertical-align:middle;" title="שמונה נרות">🕯️🕯️🕯️🕯️🕯️🕯️🕯️🕯️</span>', 
                   10: 'צום עשרה בטבת' 
                 },
                 parashot: { 2: "מקץ", 9: "ויגש", 16: "ויחי", 23: "שמות" },
@@ -694,7 +767,7 @@
                 }
               },
               {
-                name: 'שבט', year: 'תשפ"ז', gregorian: 'ינואר - פברואר 2027', startDay: 6, days: 30,
+                id: 'shvat', name: 'שבט', year: 'תשפ"ז', gregorian: 'ינואר - פברואר 2027', startDay: 6, days: 30,
                 gregStart: new Date(2027, 0, 9),
                 holidays: { 15: 'ט"ו בשבט' },
                 parashot: { 1: "וארא", 8: "בא", 15: "בשלח", 22: "יתרו", 29: "משפטים" },
@@ -723,7 +796,7 @@
                 }
               },
               {
-                name: 'אדר א׳', year: 'תשפ"ז', gregorian: 'פברואר - מרץ 2027', startDay: 1, days: 30,
+                id: 'adar1', name: 'אדר א׳', year: 'תשפ"ז', gregorian: 'פברואר - מרץ 2027', startDay: 1, days: 30,
                 gregStart: new Date(2027, 1, 8),
                 holidays: { 14: 'פורים קטן' },
                 parashot: { 6: "תרומה", 13: "תצוה", 20: "כי תשא", 27: "ויקהל" },
@@ -743,7 +816,7 @@
                 }
               },
               {
-                name: 'אדר ב׳', year: 'תשפ"ז', gregorian: 'מרץ - אפריל 2027', startDay: 3, days: 29,
+                id: 'adar2', name: 'אדר ב׳', year: 'תשפ"ז', gregorian: 'מרץ - אפריל 2027', startDay: 3, days: 29,
                 gregStart: new Date(2027, 2, 10),
                 holidays: { 13: 'תענית אסתר', 14: 'פורים', 15: 'שושן פורים' },
                 parashot: { 4: "פקודי", 11: "ויקרא", 18: "צו", 25: "שמיני" },
@@ -763,7 +836,7 @@
                 }
               },
               {
-                name: 'ניסן', year: 'תשפ"ז', gregorian: 'אפריל - מאי 2027', startDay: 4, days: 30,
+                id: 'nisan', name: 'ניסן', year: 'תשפ"ז', gregorian: 'אפריל - מאי 2027', startDay: 4, days: 30,
                 gregStart: new Date(2027, 3, 8),
                 holidays: { 
                   15: 'פסח', 
@@ -801,7 +874,7 @@
                 }
               },
               {
-                name: 'אייר', year: 'תשפ"ז', gregorian: 'מאי - יוני 2027', startDay: 6, days: 29,
+                id: 'iyar', name: 'אייר', year: 'תשפ"ז', gregorian: 'מאי - יוני 2027', startDay: 6, days: 29,
                 gregStart: new Date(2027, 4, 8),
                 holidays: { 
                   4: '🕯️ יום הזיכרון', 
@@ -831,7 +904,7 @@
                 }
               },
               {
-                name: 'סיוון', year: 'תשפ"ז', gregorian: 'יוני - יולי 2027', startDay: 0, days: 30,
+                id: 'sivan', name: 'סיוון', year: 'תשפ"ז', gregorian: 'יוני - יולי 2027', startDay: 0, days: 30,
                 gregStart: new Date(2027, 5, 6),
                 holidays: { 6: 'חג השבועות' },
                 parashot: { 7: "נשא", 14: "בהעלותך", 21: "שלח", 28: "קרח" },
@@ -858,7 +931,7 @@
                 }
               },
               {
-                name: 'תמוז', year: 'תשפ"ז', gregorian: 'יולי - אוגוסט 2027', startDay: 2, days: 29,
+                id: 'tamuz', name: 'תמוז', year: 'תשפ"ז', gregorian: 'יולי - אוגוסט 2027', startDay: 2, days: 29,
                 gregStart: new Date(2027, 6, 6),
                 holidays: { 17: 'צום י"ז בתמוז' },
                 parashot: { 5: "חקת", 12: "בלק", 19: "פנחס", 26: "מטות ומסעי" },
@@ -885,7 +958,7 @@
                 }
               },
               {
-                name: 'אב', year: 'תשפ"ז', gregorian: 'אוגוסט - ספטמבר 2027', startDay: 3, days: 30,
+                id: 'av', name: 'אב', year: 'תשפ"ז', gregorian: 'אוגוסט - ספטמבר 2027', startDay: 3, days: 30,
                 gregStart: new Date(2027, 7, 4),
                 holidays: { 9: 'צום ט׳ באב', 15: 'ט"ו באב' },
                 parashot: { 4: "דברים", 11: "ואתחנן", 18: "עקב", 25: "ראה" },
@@ -913,7 +986,7 @@
                 }
               },
               {
-                name: 'אלול', year: 'תשפ"ז', gregorian: 'ספטמבר - אוקטובר 2027', startDay: 5, days: 29,
+                id: 'elul', name: 'אלול', year: 'תשפ"ז', gregorian: 'ספטמבר - אוקטובר 2027', startDay: 5, days: 29,
                 gregStart: new Date(2027, 8, 3),
                 holidays: {},
                 parashot: { 2: "שופטים", 9: "כי תצא", 16: "כי תבוא", 23: "נצבים וילך" },
@@ -954,10 +1027,39 @@
             };
 
             const container = document.getElementById('calendar-container');
+            const jumpButtonsContainer = document.getElementById('jump-buttons-container');
+
+            // Determine current active month based on today's date
+            const today = new Date();
+            let currentActiveMonthId = 'tshri'; // Default fallback
 
             monthsData.forEach(month => {
+                const endDate = new Date(month.gregStart);
+                endDate.setDate(endDate.getDate() + month.days);
+                if (today >= month.gregStart && today < endDate) {
+                    currentActiveMonthId = month.id;
+                }
+            });
+
+            monthsData.forEach(month => {
+                // Create jump navigation button
+                const btn = document.createElement('button');
+                btn.className = `jump-btn ${month.id === currentActiveMonthId ? 'active' : ''}`;
+                btn.innerText = month.name;
+                btn.onclick = () => {
+                    const targetPage = document.getElementById(`month-page-${month.id}`);
+                    if (targetPage) {
+                        targetPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        document.querySelectorAll('.jump-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    }
+                };
+                jumpButtonsContainer.appendChild(btn);
+
+                // Render calendar page
                 const page = document.createElement('div');
                 page.className = 'calendar-page';
+                page.id = `month-page-${month.id}`;
 
                 const monthBaseKey = month.name.startsWith('אדר') ? 'אדר' : month.name;
                 const symbolInfo = monthSymbols[monthBaseKey] || { label: '', svg: '' };
@@ -1070,6 +1172,14 @@
                 page.appendChild(grid);
                 container.appendChild(page);
             });
+
+            // Automatically scroll to the current Hebrew month upon landing
+            setTimeout(() => {
+                const targetPage = document.getElementById(`month-page-${currentActiveMonthId}`);
+                if (targetPage) {
+                    targetPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
         });
     </script>
 </body>

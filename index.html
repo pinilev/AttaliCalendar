@@ -255,6 +255,27 @@
             box-sizing: border-box;
         }
 
+        /* היום הנוכחי - מסגרת כחולה בולטת בלבד */
+        .day-cell.today-highlight {
+            outline: 3.5px solid #2563eb !important;
+            outline-offset: -3px;
+            z-index: 10 !important;
+            box-shadow: inset 0 0 12px rgba(37, 99, 235, 0.25), 0 0 10px rgba(37, 99, 235, 0.4);
+            border-radius: 4px;
+            background-color: #eff6ff !important;
+        }
+
+        .today-badge {
+            background-color: #2563eb;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 1px 5px;
+            border-radius: 3px;
+            line-height: 1.1;
+            display: inline-block;
+        }
+
         .day-cell.empty {
             background-color: rgba(249, 249, 249, 0.85);
         }
@@ -1105,6 +1126,14 @@
                     
                     const currentGreg = new Date(month.gregStart);
                     currentGreg.setDate(month.gregStart.getDate() + (d - 1));
+
+                    const isToday = currentGreg.getDate() === today.getDate() &&
+                                    currentGreg.getMonth() === today.getMonth() &&
+                                    currentGreg.getFullYear() === today.getFullYear();
+
+                    if (isToday) {
+                        cell.classList.add('today-highlight');
+                    }
                     
                     const hebrewDate = hebrewGematria[d];
                     const gregDateStr = `${currentGreg.getDate()}`;
@@ -1149,9 +1178,12 @@
                         cell.classList.add('shabbat');
                     }
 
+                    const todayBadgeHTML = isToday ? `<span class="today-badge">📍 היום</span>` : '';
+
                     cell.innerHTML = `
                         <div class="date-row">
                             <span class="hebrew-date">${hebrewDate}</span>
+                            ${todayBadgeHTML}
                             <span class="gregorian-date">${gregDateStr}</span>
                         </div>
                         ${holidayHTML}
@@ -1173,7 +1205,7 @@
                 container.appendChild(page);
             });
 
-            // Automatically scroll to the current Hebrew month upon landing
+            // Automatically scroll to the current month upon landing (showing full month page)
             setTimeout(() => {
                 const targetPage = document.getElementById(`month-page-${currentActiveMonthId}`);
                 if (targetPage) {
